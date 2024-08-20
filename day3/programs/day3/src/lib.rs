@@ -6,7 +6,7 @@ declare_id!("AZTSRipUXJrGU1YQsMUMpMcq61k154Axt3H3ZLM6fh65");
 pub mod day3 {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    pub fn boaty_mc_boatface(ctx: Context<Initialize>) -> Result<()> {
         Ok(())
     }
 }
