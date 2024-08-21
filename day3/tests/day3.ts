@@ -27,4 +27,25 @@ describe("day3", () => {
       .rpc();
     console.log("Your transaction signature", tx);
   });
+
+  it("Should mul", async () => {
+    const tx = await program.methods
+      .mul(new anchor.BN(10), new anchor.BN(3))
+      .rpc();
+    console.log("Your transaction signature", tx);
+  });
+
+  it("Should div", async () => {
+    const tx = await program.methods
+      .div(new anchor.BN(10), new anchor.BN(3))
+      .rpc();
+    console.log("Your transaction signature", tx);
+  });
+
+  it("Should modulus", async () => {
+    const tx = await program.methods
+      .modulus(new anchor.BN(10), new anchor.BN(3))
+      .rpc();
+    console.log("Your transaction signature", tx);
+  });
 });
