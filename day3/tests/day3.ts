@@ -8,7 +8,7 @@ describe("day3", () => {
 
   const program = anchor.workspace.Day3 as Program<Day3>;
 
-  it("Is initialized!", async () => {
+  it("Call boaty mcboatface", async () => {
     // Add your test here.
     const tx = await program.methods.boatyMcBoatface().rpc();
     console.log("Your transaction signature", tx);
