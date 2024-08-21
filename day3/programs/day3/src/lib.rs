@@ -33,10 +33,12 @@ pub mod day3 {
         msg("Divided is {}", result);
     }
 
-    pub fn mod(ctx: Context<Initialize>, a: u64, b: u64) -> Result<()> {
+    pub fn modulus(ctx: Context<Initialize>, a: u64, b: u64) -> Result<()> {
         let result = a % b;
-        msg("Modulus is {}", result);
+        msg!("Modulus is {}", result);
+        Ok(())
     }
+
 
 }
 
