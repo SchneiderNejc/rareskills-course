@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 
-declare_id!("EiWnSyzoKH7VaqRouMVpxUm8BMMwZxq55eFmM1HqsYFX");
+declare_id!("EQiStVkyD9fxMF2q2D3izbnSZEfRT8vwuRTLmyxymx6b");
 
 #[program]
 pub mod day2 {
@@ -35,7 +35,6 @@ pub mod day2 {
         Ok(())
     }
 
-    //  TODO: ADD DOUBLE
     pub fn divide(ctx: Context<Initialize>, a: f64, b: f64) -> Result<()> {
         let result: f64 = a / b;
         msg!("Result of division: {}", result);
