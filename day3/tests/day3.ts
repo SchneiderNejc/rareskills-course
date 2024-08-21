@@ -13,4 +13,18 @@ describe("day3", () => {
     const tx = await program.methods.boatyMcBoatface().rpc();
     console.log("Your transaction signature", tx);
   });
+
+  it("Should add", async () => {
+    const tx = await program.methods
+      .add(new anchor.BN(1), new anchor.BN(2))
+      .rpc();
+    console.log("Your transaction signature", tx);
+  });
+
+  it("Should sub", async () => {
+    const tx = await program.methods
+      .sub(new anchor.BN(10), new anchor.BN(3))
+      .rpc();
+    console.log("Your transaction signature", tx);
+  });
 });
