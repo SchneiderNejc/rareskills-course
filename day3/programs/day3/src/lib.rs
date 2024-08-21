@@ -24,13 +24,14 @@ pub mod day3 {
 
     pub fn mul(ctx: Context<Initialize>, a: u64, b: u64) -> Result<()> {
         let result = a * b;
-        msg("Multipled is {}", result);
+        msg!("Multipled is {}", result);
         Ok(())
     }
 
     pub fn div(ctx: Context<Initialize>, a: f64, b: f64) -> Result<()> {
         let result = a / b;
-        msg("Divided is {}", result);
+        msg!("Divided is {}", result);
+        Ok(())
     }
 
     pub fn modulus(ctx: Context<Initialize>, a: u64, b: u64) -> Result<()> {
