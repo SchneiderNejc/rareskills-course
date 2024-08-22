@@ -8,13 +8,12 @@ pub mod day6 {
 
     pub fn age_checker(ctx: Context<Initialize>,
         age: u64) -> Result<()> {
-    if age >= 18 {
-        msg!("You are 18 years old or above");
-    } else {
-        msg!("You are below 18 years old");
-    }
+
+        let result = if age >= 18 {"You are 18 years old or above"} else { "You are below 18 years old" };
+        msg!("{:?}", result);
         Ok(())
     }
+
 }
 
 #[derive(Accounts)]
