@@ -5,6 +5,14 @@ declare_id!("6jFD32aG6PwaYdLUgswa445xL7Lg3uKsLbApJv52CuNG");
 #[program]
 pub mod day6 {
     use super::*;
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        for i in (0..10).step_by(2) {
+            // do something...
+
+            msg!("{}", i);
+        }
+        Ok(())
+    }
 
     pub fn age_checker(ctx: Context<Initialize>,
         age: u64) -> Result<()> {
