@@ -14,6 +14,25 @@ pub mod day6 {
         Ok(())
     }
 
+
+    pub fn fixed_array(ctx: Context<Initialize>) -> Result<()> {
+        // Declare an array of u32 with a fixed size of 5
+        let my_array: [u32; 5] = [10, 20, 30, 40, 50];
+
+        // Accessing elements of the array
+        let first_element = my_array[0];
+        let third_element = my_array[2];
+
+        // Declare a mutable array of u32 with a fixed size of 3
+        let mut mutable_array: [u32; 3] = [100, 200, 300];
+
+        // Change the second element from 200 to 250
+        mutable_array[1] = 250;
+
+        // Rest of your program's logic
+
+        Ok(())
+    }
     pub fn age_checker(ctx: Context<Initialize>,
         age: u64) -> Result<()> {
     match age {
