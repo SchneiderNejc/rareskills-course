@@ -33,6 +33,25 @@ pub mod day6 {
 
         Ok(())
     }
+
+    pub fn dynamic_array(ctx: Context<Initialize>) -> Result<()> {
+        // Declare a dynamic array-like structure using Vec
+        let mut dynamic_array: Vec<u32> = Vec::new();
+
+        // Add elements to the dynamic array
+        dynamic_array.push(10);
+        dynamic_array.push(20);
+        dynamic_array.push(30);
+
+        // Accessing elements of the dynamic array
+        let first_element = dynamic_array[0];
+        let third_element = dynamic_array[2];
+
+        // Rest of your program's logic
+        msg!("Third element = {}", third_element);
+
+        Ok(())
+    }
     pub fn age_checker(ctx: Context<Initialize>,
         age: u64) -> Result<()> {
     match age {
