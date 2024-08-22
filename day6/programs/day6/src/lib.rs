@@ -6,7 +6,13 @@ declare_id!("5xJNXoJhRUCixjzuzEbvP1qK3H4TxHx9cCcuRVMimWQm");
 pub mod day6 {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    pub fn age_checker(ctx: Context<Initialize>,
+        age: u64) -> Result<()> {
+    if age >= 18 {
+        msg!("You are 18 years old or above");
+    } else {
+        msg!("You are below 18 years old");
+    }
         Ok(())
     }
 }
