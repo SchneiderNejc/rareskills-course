@@ -8,9 +8,9 @@ describe("day6", () => {
 
   const program = anchor.workspace.Day6 as Program<Day6>;
 
-  it("Is initialized!", async () => {
+  it("Age checker", async () => {
     // Add your test here.
-    const tx = await program.methods.initialize().rpc();
+    const tx = await program.methods.ageChecker(new anchor.BN(35)).rpc();
     console.log("Your transaction signature", tx);
   });
 });
