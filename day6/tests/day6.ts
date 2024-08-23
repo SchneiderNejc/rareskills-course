@@ -23,6 +23,11 @@ describe("day6", () => {
   it("Prints mapping!", async () => {
     // Add your test here.
     const tx = await program.methods.mapping("name", "Bob").rpc();
+  // it("Cast array length.", async () => {
+  //   // Add your test here.
+  //   const tx = await program.methods.castArrayLength().rpc();
+  //   console.log("Your transaction signature", tx);
+  // });
     console.log("Your transaction signature", tx);
   });
 });
