@@ -102,6 +102,35 @@ pub mod day6 {
         Ok(())
     }
 
+    pub fn cast_array_length(ctx: Context<Initialize>) -> Result<()> {
+
+        let mut dynamic_array: Vec<u32> = Vec::from([1,2,3,4,5,6]);
+        let len = dynamic_array.len(); // this has type usize
+
+        let another_var: u64 = 5; // this has type u64
+
+        let len_plus_another_var = len as u64 + another_var;
+
+        msg!("The result is {}", len_plus_another_var);
+
+        Ok(())
+     }
+
+     pub fn filter_even_numbers(ctx: Context<Initialize>,
+        input_vector: Vec<u64>) -> Result<()> {
+
+        let mut even_numbers = Vec::new();
+
+        for number in input_vector.iter() {
+            if number % 2 == 0 {
+                even_numbers.push(number);
+            }
+        }
+
+        msg!("Even numbers: {:?}", even_numbers);
+        Ok(())
+     }
+
 
     pub fn age_checker(ctx: Context<Initialize>,
         age: u64) -> Result<()> {
