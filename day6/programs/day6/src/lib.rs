@@ -1,6 +1,9 @@
 use anchor_lang::prelude::*;
 
-declare_id!("6jFD32aG6PwaYdLUgswa445xL7Lg3uKsLbApJv52CuNG");
+// *** CONSTANT DECLARED HERE ***
+const MEANING_OF_LIFE_AND_EXISTENCE: u64 = 42;
+
+declare_id!("6UBGbvb6AysTziHTszALb4ghqWdCDSNCwUkyNH7qYHiV");
 
 #[program]
 pub mod day6 {
@@ -69,6 +72,10 @@ pub mod day6 {
         Ok(())
     }
 
+    pub fn life_meaning(ctx: Context<Initialize>) -> Result<()> {
+        msg!(&format!("Answer to the ultimate question: {}", MEANING_OF_LIFE_AND_EXISTENCE)); // new line here
+        Ok(())
+    }
 
 
     pub fn age_checker(ctx: Context<Initialize>,
