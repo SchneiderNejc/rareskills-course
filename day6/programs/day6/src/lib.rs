@@ -72,6 +72,31 @@ pub mod day6 {
         Ok(())
     }
 
+    // Note: struct is reserved keyword, therefore we use structure
+    pub fn structure(_ctx: Context<Initialize>, name: String, age: u64) -> Result<()> {
+        // Defining a struct in Solana
+        struct Person {
+            my_name: String,
+            my_age: u64,
+        }
+
+        // Creating an instance of the struct
+        let mut person1: Person = Person {
+            my_name: name,
+            my_age: age,
+        };
+
+        msg!("{} is {} years old", person1.my_name, person1.my_age);
+
+        // Accessing and modifying struct fields
+        person1.my_name = "Bob".to_string();
+        person1.my_age = 18;
+
+        msg!("{} is {} years old", person1.my_name, person1.my_age);
+
+        Ok(())
+    }
+
     pub fn life_meaning(ctx: Context<Initialize>) -> Result<()> {
         msg!(&format!("Answer to the ultimate question: {}", MEANING_OF_LIFE_AND_EXISTENCE)); // new line here
         Ok(())
