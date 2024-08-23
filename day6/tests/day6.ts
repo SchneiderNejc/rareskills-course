@@ -8,11 +8,17 @@ describe("day6", () => {
 
   const program = anchor.workspace.Day6 as Program<Day6>;
 
-  it("Age checker", async () => {
-    // Add your test here.
-    const tx = await program.methods.ageChecker(new anchor.BN(35)).rpc();
-    console.log("Your transaction signature", tx);
-  });
+  // it("Age checker.", async () => {
+  //   // Add your test here.
+  //   const tx = await program.methods.ageChecker(new anchor.BN(35)).rpc();
+  //   console.log("Your transaction signature", tx);
+  // });
+
+  // it("Prints mapping.", async () => {
+  //   // Add your test here.
+  //   const tx = await program.methods.mapping("name", "Bob").rpc();
+  //   console.log("Your transaction signature", tx);
+  // });
 
   // it("Prints struct.", async () => {
   //   // Add your test here.
@@ -20,9 +26,6 @@ describe("day6", () => {
   //   console.log("Your transaction signature", tx);
   // });
 
-  it("Prints mapping!", async () => {
-    // Add your test here.
-    const tx = await program.methods.mapping("name", "Bob").rpc();
   // it("Cast array length.", async () => {
   //   // Add your test here.
   //   const tx = await program.methods.castArrayLength().rpc();
