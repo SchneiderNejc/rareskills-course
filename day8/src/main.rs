@@ -1,7 +1,7 @@
 // src/main.rs
-// Import the macro_demo crate and bring all items into scope with the `*` wildcard
+// Import the day8 crate and bring all items into scope with the `*` wildcard
 // (basically everything in this crate, including our macro in `src/lib.rs`
-    use macro_demo::*;
+    use day8::*;
 
     // Apply the `foo_bar_attribute` procedural attribute-like macro we created in `src/lib.rs` to `struct MyStruct`
     // The procedural macro will generate a new struct definition with specified fields and methods
