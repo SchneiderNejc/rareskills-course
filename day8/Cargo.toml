@@ -1,3 +1,8 @@
+[package]
+name = "day8"
+version = "0.1.0"
+edition = "2021"
+
 [lib]
 proc-macro = true
 
