@@ -1,0 +1,1 @@
+ If there is a pub function in a Solana program, for all practical purposes you can think of it as external in the context of Solidity.
