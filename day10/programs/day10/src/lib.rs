@@ -52,5 +52,28 @@ mod do_something {
         // Do something else...
     }
 } */
+
+
+// ------------------- PRIVATE FUNC -------------------
+/* pub mod day10 {
+    use super::*;
+
+    pub fn initialize(_ctx: Context<Initialize>) -> Result<()> {
+        // Call the private_function from within its parent module
+        some_function_function::private_function();
+
+        Ok(())
+    }
+
+    pub mod some_function_function {
+        // @note uses pub(in crate::day10)
+        pub(in crate::day10) fn private_function() {
+            // Private function logic...
+        }
+    }
+} */
+
+
+
 #[derive(Accounts)]
 pub struct Initialize {}
