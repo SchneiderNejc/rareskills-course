@@ -1,4 +1,4 @@
-use anchor_lang::prelude::*;
+use anchor_lang::{prelude::*, solana_program::sysvar::recent_blockhashes::RecentBlockhashes};
 
 declare_id!("6XS1mbtFU5T9yeWPLG1x51zyXxEuSqDu9ZaM8v8ZDRGJ");
 
@@ -7,6 +7,7 @@ pub mod day11 {
     use super::*;
     use chrono::*;
 
+    // ----------------- unix timestamp -----------------
     pub fn initialize(_ctx: Context<Initialize>) -> Result<()> {
         let clock: Clock = Clock::get()?;
         msg!(
@@ -17,6 +18,7 @@ pub mod day11 {
         Ok(())
     }
 
+    // ----------------- day of the week -----------------
     pub fn get_day_of_the_week(
         _ctx: Context<Initialize>) -> Result<()> {
 
@@ -30,7 +32,25 @@ pub mod day11 {
 
         Ok(())
     }
+
+    // ----------------- blockhash -----------------
+    pub fn blockhash(ctx: Context<Initialize>) -> Result<()> {
+        // RECENT BLOCK HASHES
+        let arr = [ctx.accounts.recent_blockhashes.clone()];
+        let accounts_iter = &mut arr.iter();
+        let sh_sysvar_info = next_account_info(accounts_iter)?;
+        let recent_blockhashes = RecentBlockhashes::from_account_info(sh_sysvar_info)?;
+        let data = recent_blockhashes.last().unwrap();
+
+        msg!("The recent block hash is: {:?}", data.blockhash);
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
-pub struct Initialize {}
+// pub struct Initialize {}
+// @dev using this makes gethash() work, but the otherfunctions fail.
+pub struct Initialize<'info> {
+    /// CHECK: readonly
+    pub recent_blockhashes: AccountInfo<'info>
+}
