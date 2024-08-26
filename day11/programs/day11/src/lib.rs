@@ -34,7 +34,8 @@ pub mod day11 {
     }
 
     // ----------------- blockhash -----------------
-    pub fn blockhash(ctx: Context<Initialize>) -> Result<()> {
+    // @dev uncomment Initialize<'info> to make this work.
+/*     pub fn blockhash(ctx: Context<Initialize>) -> Result<()> {
         // RECENT BLOCK HASHES
         let arr = [ctx.accounts.recent_blockhashes.clone()];
         let accounts_iter = &mut arr.iter();
@@ -44,13 +45,13 @@ pub mod day11 {
 
         msg!("The recent block hash is: {:?}", data.blockhash);
         Ok(())
-    }
+    } */
 }
 
 #[derive(Accounts)]
-// pub struct Initialize {}
+pub struct Initialize {}
 // @dev using this makes gethash() work, but the otherfunctions fail.
-pub struct Initialize<'info> {
+/* pub struct Initialize<'info> {
     /// CHECK: readonly
     pub recent_blockhashes: AccountInfo<'info>
-}
+} */

@@ -19,7 +19,7 @@ describe("day11", () => {
     console.log("Your transaction signature", tx);
   });
 
-  it("Get hash of the lastest block", async () => {
+  xit("Get hash of the lastest block", async () => {
     // Add your test here.
     const tx = await program.methods
       .blockhash()
