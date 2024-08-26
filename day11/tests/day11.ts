@@ -18,4 +18,16 @@ describe("day11", () => {
     const tx = await program.methods.getDayOfTheWeek().rpc();
     console.log("Your transaction signature", tx);
   });
+
+  it("Get hash of the lastest block", async () => {
+    // Add your test here.
+    const tx = await program.methods
+      .blockhash()
+      .accounts({
+        recentBlockhashes: anchor.web3.SYSVAR_RECENT_BLOCKHASHES_PUBKEY,
+      })
+      .rpc();
+
+    console.log("Transaction hash:", tx);
+  });
 });
