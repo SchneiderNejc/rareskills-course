@@ -13,4 +13,9 @@ describe("day11", () => {
     const tx = await program.methods.initialize().rpc();
     console.log("Your transaction signature", tx);
   });
+
+  it("Get day of the week", async () => {
+    const tx = await program.methods.getDayOfTheWeek().rpc();
+    console.log("Your transaction signature", tx);
+  });
 });
