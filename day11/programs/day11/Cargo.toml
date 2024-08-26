@@ -17,3 +17,4 @@ default = []
 
 [dependencies]
 anchor-lang = "0.27.0"
+chrono ="0.4.31" # Functionality for operations on dates and times in Rust.
