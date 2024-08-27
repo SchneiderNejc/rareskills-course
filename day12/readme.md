@@ -17,3 +17,11 @@ A slot is a window of time (about 400ms) where a designated leader can produce a
 
 solana epoch
 is approximately two days long. SOL can only be staked or unstaked at the start of an epoch
+
+Sysvars we didn't test due changing pub struct Initialize
+StakeHistory, RecentBlockhashes, Fees, Instruction, LastRestartSlot
+
+In the current version of Anchor, it is not feasible to access certain sysvars.
+These sysvars include EpochRewards, SlotHistory, and SlotHashes.
+When attempting to access these sysvars, it results to an error.
+
