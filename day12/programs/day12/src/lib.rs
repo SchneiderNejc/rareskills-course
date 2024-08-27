@@ -21,6 +21,9 @@ pub mod day12 {
         // Log the details of the EpochSchedule sysvar
         msg!("EpochSchedule: {:?}", epoch_schedule);
 
+        // Rent sysvar
+        let rent_var = Rent::get()?;
+        msg!("Rent {:?}", rent_var);
         Ok(())
     }
 }
