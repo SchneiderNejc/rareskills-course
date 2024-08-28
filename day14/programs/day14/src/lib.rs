@@ -15,12 +15,23 @@ pub mod day14 {
     }
 
     pub fn two_signers(ctx: Context<Initialize>) -> Result<()> {
-        // @dev Signer doesen't have tu be mutable.
         let the_signer1: &mut Signer = &mut ctx.accounts.signer1;
         let the_signer2: &mut Signer = &mut ctx.accounts.signer2;
 
         msg!("The signer1: {:?}", *the_signer1.key);
         msg!("The signer2: {:?}", *the_signer2.key);
+
+        Ok(())
+    }
+
+    pub fn three_signers(ctx: Context<Initialize>) -> Result<()> {
+        let the_signer1: &mut Signer = &mut ctx.accounts.signer1;
+        let the_signer2: &mut Signer = &mut ctx.accounts.signer2;
+        let the_signer3: &mut Signer = &mut ctx.accounts.signer3;
+
+        msg!("The signer1: {:?}", *the_signer1.key);
+        msg!("The signer2: {:?}", *the_signer2.key);
+        msg!("The signer3: {:?}", *the_signer3.key);
 
         Ok(())
     }
@@ -30,4 +41,5 @@ pub mod day14 {
 pub struct Initialize<'info> {
     pub signer1: Signer<'info>,
     pub signer2: Signer<'info>,
+    pub signer3: Signer<'info>,
 }
