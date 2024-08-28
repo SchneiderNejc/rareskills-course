@@ -8,9 +8,15 @@ describe("day14", () => {
 
   const program = anchor.workspace.Day14 as Program<Day14>;
 
-  it("Is initialized!", async () => {
+  it("Is signed by a single signer", async () => {
     // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+    const tx = await program.methods
+      .initialize()
+      .accounts({
+        signer1: program.provider.publicKey,
+      })
+      .rpc();
+
+    console.log("The signer1: ", program.provider.publicKey.toBase58());
   });
 });
