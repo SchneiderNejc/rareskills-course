@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 declare_id!("FinKTpyeRA8as4H4jbfKKnbcaj94Lwiz9FJxd391DwKk");
 
 // @note Replace with your wallet's public key
-const OWNER: &str = "3Uivf5x8LWNph1hFf7dhtCgR4xA253ckVvbW9ufNTpXq";
+const OWNER: &str = "6ZJDfSVjffvRYbtpFF33PSeYWNYJnbtMKiwWVt1YRjZW";
 
 #[program]
 pub mod day14 {
@@ -43,24 +43,24 @@ pub mod day14 {
 
     // ------------------ Only Owner ------------------
 
+    #[access_control(check(&ctx))]
     pub fn only_owner(ctx: Context<OnlyOwner>) -> Result<()> {
         // Function logic...
 
         msg!("Holla, I'm the owner.");
         Ok(())
     }
+}
 
+fn check(ctx: &Context<OnlyOwner>) -> Result<()> {
+    // Check if signer === owner
+    require_keys_eq!(
+        ctx.accounts.signer_account.key(),
+        OWNER.parse::<Pubkey>().unwrap(),
+        OnlyOwnerError::NotOwner
+    );
 
-    fn check(ctx: &Context<OnlyOwner>) -> Result<()> {
-        // Check if signer === owner
-        require_keys_eq!(
-            ctx.accounts.signer_account.key(),
-            OWNER.parse::<Pubkey>().unwrap(),
-            OnlyOwnerError::NotOwner
-        );
-
-        Ok(())
-    }
+    Ok(())
 }
 
 // Signer related structs
