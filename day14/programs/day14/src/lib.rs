@@ -9,6 +9,8 @@ const OWNER: &str = "3Uivf5x8LWNph1hFf7dhtCgR4xA253ckVvbW9ufNTpXq";
 pub mod day14 {
     use super::*;
 
+    // ------------------ Multiple signers ------------------
+
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         // @dev Signer doesen't have tu be mutable.
         let the_signer1: &mut Signer = &mut ctx.accounts.signer1;
@@ -39,6 +41,8 @@ pub mod day14 {
         Ok(())
     }
 
+    // ------------------ Only Owner ------------------
+
     pub fn only_owner(ctx: Context<OnlyOwner>) -> Result<()> {
         // Function logic...
 
@@ -59,11 +63,15 @@ pub mod day14 {
     }
 }
 
+// Signer related structs
 #[derive(Accounts)]
 pub struct Initialize<'info> {
     pub signer1: Signer<'info>,
     pub signer2: Signer<'info>,
     pub signer3: Signer<'info>,
+}
+
+// Only owner related structs
 #[derive(Accounts)]
 pub struct OnlyOwner<'info> {
     signer_account: Signer<'info>,
