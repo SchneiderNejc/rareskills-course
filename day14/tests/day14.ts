@@ -53,4 +53,15 @@ describe("day14", () => {
     console.log("The signer2: ", myKeypair2.publicKey.toBase58());
     console.log("The signer3: ", myKeypair3.publicKey.toBase58());
   });
+
+  it("Is called by the owner", async () => {
+    const tx = await program.methods
+      .onlyOwner()
+      .accounts({
+        signerAccount: program.provider.publicKey,
+      })
+      .rpc();
+
+    console.log("Transaction hash:", tx);
+  });
 });
