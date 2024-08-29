@@ -8,8 +8,12 @@ describe("day14", () => {
 
   const program = anchor.workspace.Day14 as Program<Day14>;
 
+  // generate a signer to call our function
+  let myKeypair = anchor.web3.Keypair.generate();
+  let myKeypair2 = anchor.web3.Keypair.generate();
+  let myKeypair3 = anchor.web3.Keypair.generate();
+
   it("Is signed by a single signer", async () => {
-    // Add your test here.
     const tx = await program.methods
       .initialize()
       .accounts({
@@ -21,10 +25,6 @@ describe("day14", () => {
   });
 
   it("Is signed by two signers", async () => {
-    // generate a signer to call our function
-    let myKeypair = anchor.web3.Keypair.generate();
-
-    // Add your test here.
     const tx = await program.methods
       .twoSigners()
       .accounts({
@@ -39,11 +39,6 @@ describe("day14", () => {
   });
 
   it("Is signed by three signers", async () => {
-    // generate a signer to call our function
-    let myKeypair2 = anchor.web3.Keypair.generate();
-    let myKeypair3 = anchor.web3.Keypair.generate();
-
-    // Add your test here.
     const tx = await program.methods
       .threeSigners()
       .accounts({
