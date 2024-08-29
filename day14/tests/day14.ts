@@ -64,4 +64,16 @@ describe("day14", () => {
 
     console.log("Transaction hash:", tx);
   });
+
+  it("Is NOT called by the owner", async () => {
+    const tx = await program.methods
+      .onlyOwner()
+      .accounts({
+        signerAccount: myKeypair.publicKey,
+      })
+      .signers([myKeypair])
+      .rpc();
+
+    console.log("Transaction hash:", tx);
+  });
 });
