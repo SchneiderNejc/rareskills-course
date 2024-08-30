@@ -7,10 +7,31 @@ describe("day15", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
 
   const program = anchor.workspace.Day15 as Program<Day15>;
+  const defaultKeyPair = new anchor.web3.PublicKey(
+    // replace this with your default provider keypair, you can get it by running `solana address` in your terminal
+    "6ZJDfSVjffvRYbtpFF33PSeYWNYJnbtMKiwWVt1YRjZW"
+  );
 
   it("Is initialized!", async () => {
-    // Add your test here.
+    // log the keypair's initial balance
+    let bal_before = await program.provider.connection.getBalance(
+      defaultKeyPair
+    );
+    console.log("before:", bal_before);
+
+    // call the initialize function of our program
     const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+
+    // log the keypair's balance after
+    let bal_after = await program.provider.connection.getBalance(
+      defaultKeyPair
+    );
+    console.log("after:", bal_after);
+
+    // log the difference
+    console.log(
+      "diff:",
+      BigInt(bal_before.toString()) - BigInt(bal_after.toString())
+    );
   });
 });
