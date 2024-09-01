@@ -30,5 +30,6 @@ pub struct Initialize<'info> {
 
 #[account]
 pub struct MyStorage {
-    x: u64,
+    x: i64,
+    y: i64,
 }
