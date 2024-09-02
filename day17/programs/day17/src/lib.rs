@@ -12,7 +12,11 @@ pub mod day17 {
     }
 
     pub fn set(ctx: Context<Set>, new_x: u64) -> Result<()> {
-        ctx.accounts.my_storage.x = new_x;
+        // Basic syntax
+        //ctx.accounts.my_storage.x = new_x;
+        // Improved syntax is better for multiple storage operations.
+        let my_storage = &mut ctx.accounts.my_storage;
+	    my_storage.x = new_x;
         Ok(())
     }
 }
