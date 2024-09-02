@@ -25,6 +25,11 @@ pub mod day17 {
         msg!("The value of x is {}", x);
         Ok(())
     }
+
+    pub fn increment(ctx: Context<Set>) -> Result<()> {
+        ctx.accounts.my_storage.x += 1;
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
