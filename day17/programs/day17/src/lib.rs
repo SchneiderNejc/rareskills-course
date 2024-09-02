@@ -19,11 +19,22 @@ pub mod day17 {
 	    my_storage.x = new_x;
         Ok(())
     }
+
+    pub fn print_x(ctx: Context<PrintX>) -> Result<()> {
+        let x = ctx.accounts.my_storage.x;
+        msg!("The value of x is {}", x);
+        Ok(())
+    }
 }
 
 #[derive(Accounts)]
 pub struct Set<'info> {
     #[account(mut, seeds = [], bump)]
+    pub my_storage: Account<'info, MyStorage>,
+}
+
+#[derive(Accounts)]
+pub struct PrintX<'info> {
     pub my_storage: Account<'info, MyStorage>,
 }
 
