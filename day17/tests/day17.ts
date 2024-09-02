@@ -35,5 +35,17 @@ describe("day17", () => {
       .set(new anchor.BN(170))
       .accounts({ myStorage: myStorage })
       .rpc();
+  it("Can increment value.", async () => {
+    const seeds = [];
+    const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds,
+      program.programId
+    );
+
+    // Set incremented value.
+    await program.methods.increment().accounts({ myStorage: myStorage }).rpc();
+
+    await program.methods.printX().accounts({ myStorage: myStorage }).rpc();
+  });
   });
 });
