@@ -20,9 +20,13 @@ pub mod day17 {
         Ok(())
     }
 
-    pub fn print_x(ctx: Context<PrintX>) -> Result<()> {
-        let x = ctx.accounts.my_storage.x;
-        msg!("The value of x is {}", x);
+    pub fn get(ctx: Context<Get>) -> Result<u64> {
+        Ok(ctx.accounts.my_storage.x)
+    }
+
+    pub fn print_x(ctx: Context<Get>) -> Result<()> {
+        let x = get(ctx)?;
+        msg!("The value of x is {:?}", x);
         Ok(())
     }
 
@@ -39,7 +43,7 @@ pub struct Set<'info> {
 }
 
 #[derive(Accounts)]
-pub struct PrintX<'info> {
+pub struct Get<'info> {
     pub my_storage: Account<'info, MyStorage>,
 }
 
