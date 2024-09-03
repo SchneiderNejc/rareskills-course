@@ -10,6 +10,20 @@ pub mod day19 {
     pub fn initialize(ctx: Context<Initialize>, key: u64) -> Result<()> {
         Ok(())
     }
+
+    pub fn set(ctx: Context<Set>, key: u64, val: u64) -> Result<()> {
+        ctx.accounts.val.value = val;
+        Ok(())
+    }
+
+
+}
+
+#[derive(Accounts)]
+#[instruction(key: u64)]
+pub struct Set<'info> {
+    #[account(mut)]
+    val: Account<'info, Val>,
 }
 
 #[derive(Accounts)]
