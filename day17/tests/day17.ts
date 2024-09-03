@@ -76,5 +76,22 @@ describe("day17", () => {
 
     await program.methods.printX().accounts({ myStorage: myStorage }).rpc();
   });
+
+  it("Can increment value manually.", async () => {
+    const myStorage = getMyStorageAddress();
+
+    // Get current value.
+    let currentValue = (
+      await program.methods.get().accounts({ myStorage }).view()
+    ).toNumber();
+
+    // Set incremented value.
+    await program.methods
+      .set(new anchor.BN(currentValue + 1))
+      .accounts({ myStorage: myStorage })
+      .rpc();
+
+    await program.methods.printX().accounts({ myStorage: myStorage }).rpc();
+    // @todo assert get value is 171
   });
 });
