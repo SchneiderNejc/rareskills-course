@@ -22,5 +22,8 @@ describe("day18", () => {
       .set(new anchor.BN(170))
       .accounts({ myStorage: myStorage })
       .rpc();
+
+    let myStorageStruct = await program.account.myStorage.fetch(myStorage);
+    console.log("The value of x is:", myStorageStruct.x.toString());
   });
 });
