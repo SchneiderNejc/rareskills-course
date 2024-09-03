@@ -23,6 +23,7 @@ describe("day18", () => {
       .accounts({ myStorage: myStorage })
       .rpc();
 
+    // This method only works for accounts your program has created and have the IDL for.
     let myStorageStruct = await program.account.myStorage.fetch(myStorage);
     console.log("The value of x is:", myStorageStruct.x.toString());
   });
