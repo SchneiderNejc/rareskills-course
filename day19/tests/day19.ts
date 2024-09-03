@@ -8,9 +8,15 @@ describe("day19", () => {
 
   const program = anchor.workspace.Day19 as Program<Day19>;
 
-  it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+  it("Initialize mapping storage", async () => {
+    const key = new anchor.BN(42);
+
+    const seeds = [key.toArrayLike(Buffer, "le", 8)];
+    const [valueAccount, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds,
+      program.programId
+    );
+
+    await program.methods.initialize(key).accounts({ val: valueAccount }).rpc();
   });
 });
