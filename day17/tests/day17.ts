@@ -33,10 +33,22 @@ describe("day17", () => {
 
     console.log("the storage account address is", myStorage.toBase58());
 
+    // Pass address to initialize().
+    await program.methods.initialize().accounts({ myStorage: myStorage }).rpc();
+  });
+
+  it("Can set value.", async () => {
+    const myStorage = getMyStorageAddress();
+
+    // Set value.
     await program.methods
       .set(new anchor.BN(170))
       .accounts({ myStorage: myStorage })
       .rpc();
+
+    // Print value.
+    await program.methods.printX().accounts({ myStorage: myStorage }).rpc();
+  });
   it("Can increment value.", async () => {
     const myStorage = getMyStorageAddress();
 
