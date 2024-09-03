@@ -8,21 +8,23 @@ describe("day17", () => {
 
   const program = anchor.workspace.Day17 as Program<Day17>;
 
-  xit("Is initialized!", async () => {
-    // Calculate account address that stores MyStruct.
+  // ------------------- Helper functions -------------------
+  function getMyStorageAddress() {
     const seeds = [];
     const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
       seeds,
       program.programId
     );
 
-    console.log("the storage account address is", myStorage.toBase58());
+    console.log("The storage account address is", myStorage.toBase58());
 
-    // Pass address to initialize().
-    await program.methods.initialize().accounts({ myStorage: myStorage }).rpc();
-  });
+    return myStorage;
+  }
 
-  it("Can set value.", async () => {
+  // ------------------- Tests -------------------
+  // @dev Only call once. Follow-up runs will fail
+  xit("Is initialized!", async () => {
+    // Calculate account address that stores MyStruct.
     const seeds = [];
     const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
       seeds,
@@ -36,11 +38,7 @@ describe("day17", () => {
       .accounts({ myStorage: myStorage })
       .rpc();
   it("Can increment value.", async () => {
-    const seeds = [];
-    const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
-      seeds,
-      program.programId
-    );
+    const myStorage = getMyStorageAddress();
 
     // Set incremented value.
     await program.methods.increment().accounts({ myStorage: myStorage }).rpc();
