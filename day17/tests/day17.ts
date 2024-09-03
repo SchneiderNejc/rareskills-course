@@ -49,6 +49,25 @@ describe("day17", () => {
     // Print value.
     await program.methods.printX().accounts({ myStorage: myStorage }).rpc();
   });
+
+  it("Can get value.", async () => {
+    const myStorage = getMyStorageAddress();
+
+    // Slow way of parsing
+    /*     let x = await program.methods
+      .get()
+      .accounts({ myStorage: myStorage })
+      .view();
+    x = new anchor.BN(x).toNumber(); */
+    // Fast way of parsing
+    let x = (
+      await program.methods.get().accounts({ myStorage }).view()
+    ).toNumber();
+    console.log("val of x is", x);
+
+    // @todo assert get value is 170
+  });
+
   it("Can increment value.", async () => {
     const myStorage = getMyStorageAddress();
 
