@@ -1,15 +1,35 @@
 use anchor_lang::prelude::*;
+use std::mem::size_of;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("AfD7NnFyUnHfoS8kvhK5MTvuLqEhVggEKnJmpKuKM4qG");
 
 #[program]
 pub mod day19 {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+    pub fn initialize(ctx: Context<Initialize>, key: u64) -> Result<()> {
         Ok(())
     }
 }
 
 #[derive(Accounts)]
-pub struct Initialize {}
+#[instruction(key: u64)]
+pub struct Initialize<'info> {
+
+    #[account(init,
+              payer = signer,
+              space = size_of::<Val>() + 8,
+              seeds=[&key.to_le_bytes().as_ref()],
+              bump)]
+    val: Account<'info, Val>,
+
+    #[account(mut)]
+    signer: Signer<'info>,
+
+    system_program: Program<'info, System>,
+}
+
+#[account]
+pub struct Val {
+    value: u64,
+}
