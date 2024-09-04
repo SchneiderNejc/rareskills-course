@@ -7,11 +7,11 @@ declare_id!("AfD7NnFyUnHfoS8kvhK5MTvuLqEhVggEKnJmpKuKM4qG");
 pub mod day19 {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>, key1: u64, key2: u64) -> Result<()> {
+    pub fn initialize(ctx: Context<Initialize>, key1: u64, key2: u64, key3: u64) -> Result<()> {
         Ok(())
     }
 
-    pub fn set(ctx: Context<Set>, key1: u64, key2: u64, val: u64) -> Result<()> {
+    pub fn set(ctx: Context<Set>, key1: u64, key2: u64, key3: u64, val: u64) -> Result<()> {
         ctx.accounts.val.value = val;
         Ok(())
     }
@@ -20,20 +20,24 @@ pub mod day19 {
 }
 
 #[derive(Accounts)]
-#[instruction(key1: u64, key2: u64)] // new key args added
+#[instruction(key1: u64, key2: u64, key3: u64)] // new key args added
 pub struct Set<'info> {
     #[account(mut)]
     val: Account<'info, Val>,
 }
 
 #[derive(Accounts)]
-#[instruction(key1: u64, key2: u64)] // new key args added
+#[instruction(key1: u64, key2: u64, key3: u64)] // new key args added
 pub struct Initialize<'info> {
 
     #[account(init,
         payer = signer,
         space = size_of::<Val>() + 8,
-        seeds=[&key1.to_le_bytes().as_ref(), &key2.to_le_bytes().as_ref()], // 2 seeds
+        seeds=[
+                &key1.to_le_bytes().as_ref(),
+                &key2.to_le_bytes().as_ref(),
+                &key3.to_le_bytes().as_ref()
+            ], // 3 seeds
         bump)]
 val: Account<'info, Val>,
 
