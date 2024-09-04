@@ -14,12 +14,14 @@ describe("day19", () => {
     // we now have two keys
     const key1 = new anchor.BN(42);
     const key2 = new anchor.BN(43);
+    const key3 = new anchor.BN(44);
     const value = new anchor.BN(1337);
 
     // seeds has two values
     const seeds = [
       key1.toArrayLike(Buffer, "le", 8),
       key2.toArrayLike(Buffer, "le", 8),
+      key3.toArrayLike(Buffer, "le", 8),
     ];
     let valueAccount = anchor.web3.PublicKey.findProgramAddressSync(
       seeds,
@@ -27,11 +29,11 @@ describe("day19", () => {
     )[0];
 
     await program.methods
-      .initialize(key1, key2)
+      .initialize(key1, key2, key3)
       .accounts({ val: valueAccount })
       .rpc();
     await program.methods
-      .set(key1, key2, value)
+      .set(key1, key2, key3, value)
       .accounts({ val: valueAccount })
       .rpc();
 
