@@ -7,11 +7,11 @@ declare_id!("AfD7NnFyUnHfoS8kvhK5MTvuLqEhVggEKnJmpKuKM4qG");
 pub mod day19 {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>, key1: u64, key2: u64, key3: u64) -> Result<()> {
+    pub fn initialize(_ctx: Context<Initialize>, _key1: u64, _key2: u64, _key3: u64) -> Result<()> {
         Ok(())
     }
 
-    pub fn set(ctx: Context<Set>, key1: u64, key2: u64, key3: u64, val: u64) -> Result<()> {
+    pub fn set(ctx: Context<Set>, _key1: u64, _key2: u64, _key3: u64, val: u64) -> Result<()> {
         ctx.accounts.val.value = val;
         Ok(())
     }
