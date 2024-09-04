@@ -27,7 +27,7 @@ pub struct Set<'info> {
 }
 
 #[derive(Accounts)]
-#[instruction(key: u64)]
+#[instruction(key1: u64, key2: u64)] // new key args added
 pub struct Initialize<'info> {
 
     #[account(init,
