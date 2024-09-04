@@ -7,11 +7,11 @@ declare_id!("AfD7NnFyUnHfoS8kvhK5MTvuLqEhVggEKnJmpKuKM4qG");
 pub mod day19 {
     use super::*;
 
-    pub fn initialize(ctx: Context<Initialize>, key: u64) -> Result<()> {
+    pub fn initialize(ctx: Context<Initialize>, key1: u64, key2: u64) -> Result<()> {
         Ok(())
     }
 
-    pub fn set(ctx: Context<Set>, key: u64, val: u64) -> Result<()> {
+    pub fn set(ctx: Context<Set>, key1: u64, key2: u64, val: u64) -> Result<()> {
         ctx.accounts.val.value = val;
         Ok(())
     }
@@ -20,7 +20,7 @@ pub mod day19 {
 }
 
 #[derive(Accounts)]
-#[instruction(key: u64)]
+#[instruction(key1: u64, key2: u64)] // new key args added
 pub struct Set<'info> {
     #[account(mut)]
     val: Account<'info, Val>,
@@ -31,11 +31,11 @@ pub struct Set<'info> {
 pub struct Initialize<'info> {
 
     #[account(init,
-              payer = signer,
-              space = size_of::<Val>() + 8,
-              seeds=[&key.to_le_bytes().as_ref()],
-              bump)]
-    val: Account<'info, Val>,
+        payer = signer,
+        space = size_of::<Val>() + 8,
+        seeds=[&key1.to_le_bytes().as_ref(), &key2.to_le_bytes().as_ref()], // 2 seeds
+        bump)]
+val: Account<'info, Val>,
 
     #[account(mut)]
     signer: Signer<'info>,
