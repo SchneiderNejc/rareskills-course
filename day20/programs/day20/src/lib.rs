@@ -1,6 +1,8 @@
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program::rent as rent_module;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+
+declare_id!("5QpKqiLQkgDmkJCQETbN8Un1QDKRsmigm5wNsQy4i3DE");
 
 #[program]
 pub mod day20 {
