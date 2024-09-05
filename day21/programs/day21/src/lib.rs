@@ -16,6 +16,7 @@ pub mod day21 {
 
 #[derive(Accounts)]
 pub struct ReadBalance<'info> {
+    // @dev Must include CHECK when using UncheckedAccount.
     /// CHECK: although we read this account's balance, we don't do anything with the information
     pub acct: UncheckedAccount<'info>,
 }
