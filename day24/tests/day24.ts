@@ -27,9 +27,26 @@ describe("day24", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
   const program = anchor.workspace.Day24 as Program<Day24>;
 
+  // @notice Can only run once per deployment.
   it("Is initialized!", async () => {
-    const newKeypair = anchor.web3.Keypair.generate();
-    await airdropSol(newKeypair.publicKey, 1e9); // 1 SOL
+    const alice = anchor.web3.Keypair.generate();
+    const bob = anchor.web3.Keypair.generate();
+
+    const airdrop_alice_tx = await anchor
+      .getProvider()
+      .connection.requestAirdrop(
+        alice.publicKey,
+        1 * anchor.web3.LAMPORTS_PER_SOL
+      );
+    await confirmTransaction(airdrop_alice_tx);
+
+    const airdrop_alice_bob = await anchor
+      .getProvider()
+      .connection.requestAirdrop(
+        bob.publicKey,
+        1 * anchor.web3.LAMPORTS_PER_SOL
+      );
+    await confirmTransaction(airdrop_alice_bob);
 
     let seeds = [];
     const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
@@ -37,13 +54,27 @@ describe("day24", () => {
       program.programId
     );
 
+    // ALICE INITIALIZE ACCOUNT
     await program.methods
       .initialize()
       .accounts({
         myStorage: myStorage,
-        fren: newKeypair.publicKey, // @dev THIS MUST BE EXPLICITLY SPECIFIED
+        fren: alice.publicKey,
       })
-      .signers([newKeypair])
+      .signers([alice])
       .rpc();
+
+    // BOB WRITE TO ACCOUNT
+    await program.methods
+      .updateValue(new anchor.BN(3))
+      .accounts({
+        myStorage: myStorage,
+        fren: bob.publicKey,
+      })
+      .signers([bob])
+      .rpc();
+
+    let value = await program.account.myStorage.fetch(myStorage);
+    console.log(`value stored is ${value.x}`);
   });
 });
