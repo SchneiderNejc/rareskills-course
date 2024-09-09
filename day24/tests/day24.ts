@@ -24,14 +24,26 @@ async function confirmTransaction(tx) {
 
 // ------------------- Test functions -------------------
 describe("day24", () => {
-  // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
-
   const program = anchor.workspace.Day24 as Program<Day24>;
 
   it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+    const newKeypair = anchor.web3.Keypair.generate();
+    await airdropSol(newKeypair.publicKey, 1e9); // 1 SOL
+
+    let seeds = [];
+    const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds,
+      program.programId
+    );
+
+    await program.methods
+      .initialize()
+      .accounts({
+        myStorage: myStorage,
+        signer: newKeypair.publicKey, // ** THIS MUST BE EXPLICITLY SPECIFIED **
+      })
+      .signers([newKeypair])
+      .rpc();
   });
 });
