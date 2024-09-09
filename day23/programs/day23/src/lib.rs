@@ -40,12 +40,7 @@ pub mod day23 {
                 to: ctx.accounts.recipient1.to_account_info()
             }
         );
-
-        let mut res = system_program::transfer(cpi_context1, half_amount);
-
-        if !res.is_ok() {
-            return err!(Errors::TransferFailed);
-        }
+        let mut res = system_program::transfer(cpi_context1, half_amount)?;
 
         // Transfer to recipient2
         let cpi_context2 = CpiContext::new(
@@ -55,12 +50,8 @@ pub mod day23 {
                 to: ctx.accounts.recipient2.to_account_info(),
             },
         );
+        res = system_program::transfer(cpi_context2, half_amount)?;
 
-        res = system_program::transfer(cpi_context2, half_amount);
-
-        if !res.is_ok() {
-            return err!(Errors::TransferFailed);
-        }
 
         Ok(())
     }
