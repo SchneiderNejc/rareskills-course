@@ -41,7 +41,7 @@ describe("day24", () => {
       .initialize()
       .accounts({
         myStorage: myStorage,
-        signer: newKeypair.publicKey, // ** THIS MUST BE EXPLICITLY SPECIFIED **
+        fren: newKeypair.publicKey, // @dev THIS MUST BE EXPLICITLY SPECIFIED
       })
       .signers([newKeypair])
       .rpc();
