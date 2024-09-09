@@ -8,6 +8,7 @@ declare_id!("oPcAUxju1qYTkWngUDXYh25eFXkHkDLzatnk17ePKCy");
 pub mod day23 {
     use super::*;
 
+    // @notice Send sol to a single recipient.
     pub fn send_sol(ctx: Context<SendSol>, amount: u64) -> Result<()> {
 
         let cpi_context = CpiContext::new(
@@ -28,6 +29,7 @@ pub mod day23 {
         }
     }
 
+    // @notice Split amount and send sol to two recipients.
     pub fn split_send_sol(ctx: Context<SplitSendSol>, amount: u64) -> Result<()> {
 
         let half_amount = amount / 2;
@@ -55,6 +57,8 @@ pub mod day23 {
 
         Ok(())
     }
+
+    // @notice Split amount and sol to several recipients.
     // 'a, 'b, 'c are Rust lifetimes, ignore them for now
     pub fn split_sol<'a, 'b, 'c, 'info>(
         ctx: Context<'a, 'b, 'c, 'info, SplitSol<'info>>,
@@ -78,6 +82,7 @@ pub mod day23 {
                 return err!(Errors::TransferFailed);
             }
         }
+
         Ok(())
     }
 }
@@ -100,6 +105,7 @@ pub struct SendSol<'info> {
     signer: Signer<'info>,
 }
 
+// @todo Check if declaration of accounts was good.
 #[derive(Accounts)]
 pub struct SplitSendSol<'info> {
 
