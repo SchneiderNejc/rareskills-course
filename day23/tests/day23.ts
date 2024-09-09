@@ -50,4 +50,43 @@ describe("day23", () => {
     await printAccountBalance(recipient1.publicKey);
     await printAccountBalance(recipient2.publicKey);
   });
+
+  it("Split SOL", async () => {
+    const recipient1 = anchor.web3.Keypair.generate();
+    const recipient2 = anchor.web3.Keypair.generate();
+    const recipient3 = anchor.web3.Keypair.generate();
+
+    await printAccountBalance(recipient1.publicKey);
+    await printAccountBalance(recipient2.publicKey);
+    await printAccountBalance(recipient3.publicKey);
+
+    const accountMeta1 = {
+      pubkey: recipient1.publicKey,
+      isWritable: true,
+      isSigner: false,
+    };
+    const accountMeta2 = {
+      pubkey: recipient2.publicKey,
+      isWritable: true,
+      isSigner: false,
+    };
+    const accountMeta3 = {
+      pubkey: recipient3.publicKey,
+      isWritable: true,
+      isSigner: false,
+    };
+
+    let amount = new anchor.BN(1 * anchor.web3.LAMPORTS_PER_SOL);
+    await program.methods
+      .splitSol(amount)
+      // @notice remaining_acocunts is the Anchor mechanism for passing
+      //         in an arbitrary number of accounts without having
+      //         to create a bunch of keys in the Context struct.
+      .remainingAccounts([accountMeta1, accountMeta2, accountMeta3])
+      .rpc();
+
+    await printAccountBalance(recipient1.publicKey);
+    await printAccountBalance(recipient2.publicKey);
+    await printAccountBalance(recipient3.publicKey);
+  });
 });
