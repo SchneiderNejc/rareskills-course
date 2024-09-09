@@ -28,4 +28,26 @@ describe("day23", () => {
 
     await printAccountBalance(recipient.publicKey);
   });
+
+  it("Split SOL between 2 recipients", async () => {
+    // generate a new wallet
+    const recipient1 = anchor.web3.Keypair.generate();
+    const recipient2 = anchor.web3.Keypair.generate();
+
+    await printAccountBalance(recipient1.publicKey);
+    await printAccountBalance(recipient2.publicKey);
+
+    // send the account 1 SOL via the program
+    let amount = new anchor.BN(6 * anchor.web3.LAMPORTS_PER_SOL);
+    await program.methods
+      .splitSendSol(amount)
+      .accounts({
+        recipient1: recipient1.publicKey,
+        recipient2: recipient2.publicKey,
+      })
+      .rpc();
+
+    await printAccountBalance(recipient1.publicKey);
+    await printAccountBalance(recipient2.publicKey);
+  });
 });
