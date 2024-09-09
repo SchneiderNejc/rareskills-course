@@ -10,7 +10,18 @@ pub mod day24 {
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         Ok(())
     }
+
+    pub fn update_value(ctx: Context<UpdateValue>, new_value: u64) -> Result<()> {
+        ctx.accounts.my_storage.x = new_value;
+        Ok(())
+    }
 }
+
+
+
+
+
+
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
@@ -25,6 +36,16 @@ pub struct Initialize<'info> {
     pub fren: Signer<'info>,
 
     pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct UpdateValue<'info> {
+    #[account(mut, seeds = [], bump)]
+    pub my_storage: Account<'info, MyStorage>,
+
+	// THIS FIELD MUST BE INCLUDED
+    #[account(mut)]
+    pub fren: Signer<'info>,
 }
 
 #[account]
