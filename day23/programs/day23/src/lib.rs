@@ -27,6 +27,43 @@ pub mod day23 {
             return err!(Errors::TransferFailed);
         }
     }
+
+    pub fn split_send_sol(ctx: Context<SplitSendSol>, amount: u64) -> Result<()> {
+
+        let half_amount = amount / 2;
+
+        let cpi_context1 = CpiContext::new(
+            ctx.accounts.system_program.to_account_info(),
+
+            system_program::Transfer {
+                from: ctx.accounts.signer.to_account_info(),
+                to: ctx.accounts.recipient1.to_account_info()
+            }
+        );
+
+        let mut res = system_program::transfer(cpi_context1, half_amount);
+
+        if !res.is_ok() {
+            return err!(Errors::TransferFailed);
+        }
+
+        // Transfer to recipient2
+        let cpi_context2 = CpiContext::new(
+            ctx.accounts.system_program.to_account_info(),
+            system_program::Transfer {
+                from: ctx.accounts.signer.to_account_info(),
+                to: ctx.accounts.recipient2.to_account_info(),
+            },
+        );
+
+        res = system_program::transfer(cpi_context2, half_amount);
+
+        if !res.is_ok() {
+            return err!(Errors::TransferFailed);
+        }
+
+        Ok(())
+    }
 }
 
 #[error_code]
@@ -40,6 +77,23 @@ pub struct SendSol<'info> {
     /// CHECK: we do not read or write the data of this account
     #[account(mut)]
     recipient: UncheckedAccount<'info>,
+
+    system_program: Program<'info, System>,
+
+    #[account(mut)]
+    signer: Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct SplitSendSol<'info> {
+
+    #[account(mut)]
+    /// CHECK: Splitting bill to 2 recipients.
+    recipient1: UncheckedAccount<'info>,
+
+    #[account(mut)]
+    /// CHECK: Second recipient.
+    recipient2: UncheckedAccount<'info>,
 
     system_program: Program<'info, System>,
 
