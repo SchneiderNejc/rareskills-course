@@ -12,5 +12,9 @@ describe("day23", () => {
     // Add your test here.
     const tx = await program.methods.initialize().rpc();
     console.log("Your transaction signature", tx);
+  async function printAccountBalance(account) {
+    const balance = await anchor.getProvider().connection.getBalance(account);
+    console.log(`${account} has ${balance / anchor.web3.LAMPORTS_PER_SOL} SOL`);
+  }
   });
 });
