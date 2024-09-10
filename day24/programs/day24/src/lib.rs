@@ -3,16 +3,27 @@ use std::mem::size_of;
 
 declare_id!("9bQDwFx9JWGk7ASYK2x1vj3iZpbL61pUXGNfVxZbZZ1G");
 
+const STARTING_POINTS: u32 = 10;
+
 #[program]
 pub mod day24 {
     use super::*;
 
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
+        ctx.accounts.player.points = STARTING_POINTS;
+        ctx.accounts.player.authority = ctx.accounts.signer.key();
         Ok(())
     }
 
-    pub fn update_value(ctx: Context<UpdateValue>, new_value: u64) -> Result<()> {
-        ctx.accounts.my_storage.x = new_value;
+    pub fn transfer_points(ctx: Context<TransferPoints>,
+                           amount: u32) -> Result<()> {
+        require!(ctx.accounts.from.authority == ctx.accounts.signer.key(),
+								 Errors::SignerIsNotAuthority);
+        require!(ctx.accounts.from.points >= amount,
+                 Errors::InsufficientPoints);
+
+        ctx.accounts.from.points -= amount;
+        ctx.accounts.to.points += amount;
         Ok(())
     }
 }
