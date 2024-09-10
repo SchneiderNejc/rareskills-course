@@ -27,6 +27,14 @@ pub mod day24 {
 
 
 
+#[error_code]
+pub enum Errors {
+    #[msg("SignerIsNotAuthority")]
+    SignerIsNotAuthority,
+    #[msg("InsufficientPoints")]
+    InsufficientPoints
+}
+
 #[derive(Accounts)]
 pub struct Initialize<'info> {
     #[account(init,
@@ -44,8 +52,8 @@ pub struct Initialize<'info> {
 #[instruction(amount: u32)]
 pub struct TransferPoints<'info> {
     #[account(mut,
-        has_one = authority,
-        constraint = from.points >= amount
+        has_one = authority @ Errors::SignerIsNotAuthority,
+        constraint = from.points >= amount @ Errors::InsufficientPoints
     )]
     from: Account<'info, Player>,
     #[account(mut)]
