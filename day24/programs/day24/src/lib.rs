@@ -17,8 +17,6 @@ pub mod day24 {
 
     pub fn transfer_points(ctx: Context<TransferPoints>,
                            amount: u32) -> Result<()> {
-        require!(ctx.accounts.from.points >= amount,
-                 Errors::InsufficientPoints);
 
         ctx.accounts.from.points -= amount;
         ctx.accounts.to.points += amount;
@@ -28,12 +26,6 @@ pub mod day24 {
 
 
 
-
-#[error_code]
-pub enum Errors {
-    #[msg("InsufficientPoints")]
-    InsufficientPoints
-}
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
@@ -51,7 +43,10 @@ pub struct Initialize<'info> {
 #[derive(Accounts)]
 #[instruction(amount: u32)]
 pub struct TransferPoints<'info> {
-    #[account(mut, has_one = authority)]
+    #[account(mut,
+        has_one = authority,
+        constraint = from.points >= amount
+    )]
     from: Account<'info, Player>,
     #[account(mut)]
     to: Account<'info, Player>,
