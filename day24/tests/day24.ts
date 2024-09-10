@@ -100,5 +100,84 @@ describe("day24", () => {
       `Bob has ${(await program.account.player.fetch(playerBob)).points} points`
     );
   });
+
+  // @todo Assert expect fail.
+  it("Cant steal points from others.", async () => {
+    // Generate keypair.
+    const alice = anchor.web3.Keypair.generate();
+    const mallory = anchor.web3.Keypair.generate();
+
+    // Airdrop 1 SOL.
+    const airdrop_alice_tx = await anchor
+      .getProvider()
+      .connection.requestAirdrop(
+        alice.publicKey,
+        1 * anchor.web3.LAMPORTS_PER_SOL
+      );
+    await confirmTransaction(airdrop_alice_tx);
+
+    const airdrop_mallory_tx = await anchor
+      .getProvider()
+      .connection.requestAirdrop(
+        mallory.publicKey,
+        1 * anchor.web3.LAMPORTS_PER_SOL
+      );
+    await confirmTransaction(airdrop_mallory_tx);
+
+    // Find storage address.
+    let seeds_alice = [alice.publicKey.toBytes()];
+    const [playerAlice, _bumpA] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds_alice,
+      program.programId
+    );
+
+    let seeds_mallory = [mallory.publicKey.toBytes()];
+    const [playerMallory, _bumpB] =
+      anchor.web3.PublicKey.findProgramAddressSync(
+        seeds_mallory,
+        program.programId
+      );
+
+    //Initialize accounts.
+    await program.methods
+      .initialize()
+      .accounts({
+        player: playerAlice,
+        signer: alice.publicKey,
+      })
+      .signers([alice])
+      .rpc();
+
+    await program.methods
+      .initialize()
+      .accounts({
+        player: playerMallory,
+        signer: mallory.publicKey,
+      })
+      .signers([mallory])
+      .rpc();
+
+    // Mallory tries to forge tx "Alice transfers 5 points Mallory".
+    // Expects error: unknown signer: pxXpAx89AgR3B3T6R6Q34CYkwpbhuyzGf25UvzRvoJg
+    await program.methods
+      .transferPoints(5)
+      .accounts({
+        from: playerAlice,
+        to: playerMallory,
+        signer: alice.publicKey,
+      })
+      .signers([mallory])
+      .rpc();
+
+    console.log(
+      `Alice has ${
+        (await program.account.player.fetch(playerAlice)).points
+      } points`
+    );
+    console.log(
+      `Mallory has ${
+        (await program.account.player.fetch(playerMallory)).points
+      } points`
+    );
   });
 });
