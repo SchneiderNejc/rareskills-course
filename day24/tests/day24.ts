@@ -4,6 +4,7 @@ import { Day24 } from "../target/types/day24";
 
 // ------------------- Helper functions -------------------
 // this airdrops sol to an address
+// this airdrops sol to an address
 async function airdropSol(publicKey, amount) {
   let airdropTx = await anchor
     .getProvider()
@@ -27,8 +28,7 @@ describe("day24", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
   const program = anchor.workspace.Day24 as Program<Day24>;
 
-  // @notice Can only run once per deployment.
-  it("Is initialized!", async () => {
+  it("Alice transfers points to Bob", async () => {
     const alice = anchor.web3.Keypair.generate();
     const bob = anchor.web3.Keypair.generate();
 
@@ -48,33 +48,57 @@ describe("day24", () => {
       );
     await confirmTransaction(airdrop_alice_bob);
 
-    let seeds = [];
-    const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
-      seeds,
+    let seeds_alice = [alice.publicKey.toBytes()];
+    const [playerAlice, _bumpA] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds_alice,
       program.programId
     );
 
-    // ALICE INITIALIZE ACCOUNT
+    let seeds_bob = [bob.publicKey.toBytes()];
+    const [playerBob, _bumpB] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds_bob,
+      program.programId
+    );
+
+    // Alice and Bob initialize their accounts
     await program.methods
       .initialize()
       .accounts({
-        myStorage: myStorage,
-        fren: alice.publicKey,
+        player: playerAlice,
+        signer: alice.publicKey,
       })
       .signers([alice])
       .rpc();
 
-    // BOB WRITE TO ACCOUNT
     await program.methods
-      .updateValue(new anchor.BN(3))
+      .initialize()
       .accounts({
-        myStorage: myStorage,
-        fren: bob.publicKey,
+        player: playerBob,
+        signer: bob.publicKey,
       })
       .signers([bob])
       .rpc();
 
-    let value = await program.account.myStorage.fetch(myStorage);
-    console.log(`value stored is ${value.x}`);
+    // Alice transfers 5 points to Bob. Note that this is a u32
+    // so we don't need a BigNum
+    await program.methods
+      .transferPoints(5)
+      .accounts({
+        from: playerAlice,
+        to: playerBob,
+        signer: alice.publicKey,
+      })
+      .signers([alice])
+      .rpc();
+
+    console.log(
+      `Alice has ${
+        (await program.account.player.fetch(playerAlice)).points
+      } points`
+    );
+    console.log(
+      `Bob has ${(await program.account.player.fetch(playerBob)).points} points`
+    );
+  });
   });
 });
