@@ -180,4 +180,7 @@ describe("day24", () => {
       } points`
     );
   });
+
+  // @todo Exercise: modify the tests to violate the has_one and
+  //       constraint macro and observe the error messages.
 });
