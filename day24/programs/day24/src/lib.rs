@@ -31,35 +31,39 @@ pub mod day24 {
 
 
 
-
-
+#[error_code]
+pub enum Errors {
+    #[msg("SignerIsNotAuthority")]
+    SignerIsNotAuthority,
+    #[msg("InsufficientPoints")]
+    InsufficientPoints
+}
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
     #[account(init,
-              payer = fren,
-              space=size_of::<MyStorage>() + 8,
-              seeds = [],
+              payer = signer,
+              space = size_of::<Player>() + 8,
+              seeds = [&(signer.as_ref().key().to_bytes())],
               bump)]
-    pub my_storage: Account<'info, MyStorage>,
-
+    player: Account<'info, Player>,
     #[account(mut)]
-    pub fren: Signer<'info>,
-
-    pub system_program: Program<'info, System>,
+    signer: Signer<'info>,
+    system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
-pub struct UpdateValue<'info> {
-    #[account(mut, seeds = [], bump)]
-    pub my_storage: Account<'info, MyStorage>,
-
-	// THIS FIELD MUST BE INCLUDED
+pub struct TransferPoints<'info> {
     #[account(mut)]
-    pub fren: Signer<'info>,
+    from: Account<'info, Player>,
+    #[account(mut)]
+    to: Account<'info, Player>,
+    #[account(mut)]
+    signer: Signer<'info>,
 }
 
 #[account]
-pub struct MyStorage {
-    x: u64,
+pub struct Player {
+    points: u32,
+    authority: Pubkey
 }
