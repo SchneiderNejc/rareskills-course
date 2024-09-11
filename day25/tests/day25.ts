@@ -33,7 +33,7 @@ describe("day25", () => {
   const program = anchor.workspace.Day25 as Program<Day25>;
 
   // @notice Will only succeed the first time.
-  it("Is initialized -- PDA version", async () => {
+  xit("Is initialized -- PDA version.", async () => {
     const seeds = [];
     const [myPda, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
       seeds,
@@ -48,7 +48,7 @@ describe("day25", () => {
       .rpc();
   });
 
-  it("Is initialized -- keypair version", async () => {
+  it("Is initialized -- keypair version.", async () => {
     const newKeypair = anchor.web3.Keypair.generate();
     await airdropSol(newKeypair.publicKey, 1e9); // 1 SOL
 
@@ -62,5 +62,51 @@ describe("day25", () => {
       .accounts({ myKeypairAccount: newKeypair.publicKey })
       .signers([newKeypair]) // the signer must be the keypair
       .rpc();
+  });
+
+  // @notice Expects fail on second transfer tx.
+  xit("Writing to keypair account fails.", async () => {
+    const newKeypair = anchor.web3.Keypair.generate();
+    var recieverWallet = anchor.web3.Keypair.generate();
+
+    await airdropSol(newKeypair.publicKey, 10);
+
+    // First TX succeeds.
+    var transaction = new anchor.web3.Transaction().add(
+      anchor.web3.SystemProgram.transfer({
+        fromPubkey: newKeypair.publicKey,
+        toPubkey: recieverWallet.publicKey,
+        lamports: 1 * anchor.web3.LAMPORTS_PER_SOL,
+      })
+    );
+    await anchor.web3.sendAndConfirmTransaction(
+      anchor.getProvider().connection,
+      transaction,
+      [newKeypair]
+    );
+    console.log("sent 1 lamport");
+
+    // Init account and program becomes its owner.
+    await program.methods
+      .initializeKeypairAccount()
+      .accounts({ myKeypairAccount: newKeypair.publicKey })
+      .signers([newKeypair]) // the signer must be the keypair
+      .rpc();
+
+    console.log("initialized.");
+
+    // PK no longer owns an account, so the tx fails.
+    var transaction = new anchor.web3.Transaction().add(
+      anchor.web3.SystemProgram.transfer({
+        fromPubkey: newKeypair.publicKey,
+        toPubkey: recieverWallet.publicKey,
+        lamports: 1 * anchor.web3.LAMPORTS_PER_SOL,
+      })
+    );
+    await anchor.web3.sendAndConfirmTransaction(
+      anchor.getProvider().connection,
+      transaction,
+      [newKeypair]
+    );
   });
 });
