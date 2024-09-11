@@ -109,4 +109,30 @@ describe("day25", () => {
       [newKeypair]
     );
   });
+
+  it("Console log account owner.", async () => {
+    console.log(`The program address is ${program.programId}`);
+    const newKeypair = anchor.web3.Keypair.generate();
+
+    // get account owner before initialization
+    await airdropSol(newKeypair.publicKey, 10);
+    const accountInfoBefore = await anchor
+      .getProvider()
+      .connection.getAccountInfo(newKeypair.publicKey);
+    console.log(`initial keypair account owner is ${accountInfoBefore.owner}`);
+
+    await program.methods
+      .initializeKeypairAccount()
+      .accounts({ myKeypairAccount: newKeypair.publicKey })
+      .signers([newKeypair]) // the signer must be the keypair
+      .rpc();
+
+    // get account owner after initialization
+    const accountInfoAfter = await anchor
+      .getProvider()
+      .connection.getAccountInfo(newKeypair.publicKey);
+    console.log(
+      `keypair account owner after init is ${accountInfoAfter.owner}`
+    );
+  });
 });
