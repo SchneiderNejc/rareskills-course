@@ -46,7 +46,7 @@ pub struct InitializeKeypairAccount<'info> {
     #[account(init,
               payer = signer,
               space = size_of::<MyKeypairAccount>() + 8,)]
-              // @notice seeds and bump are missing.
+              // @dev seeds and bump are missing.
     pub my_keypair_account: Account<'info, MyKeypairAccount>,
 
     #[account(mut)]
