@@ -26,6 +26,7 @@ async function confirmTransaction(tx) {
 }
 
 // ------------------ Test functions ------------------
+// @notice init can only be run once, further runs will fail.
 describe("day26", () => {
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.AnchorProvider.env());
@@ -50,7 +51,7 @@ describe("day26", () => {
     await airdropSol(pda, 1); // 1 SOL
 
     console.log(
-      "owner of pda after airdrop:",
+      "owner of pda before airdrop:",
       (
         await anchor.getProvider().connection.getAccountInfo(pda)
       ).owner.toBase58()
