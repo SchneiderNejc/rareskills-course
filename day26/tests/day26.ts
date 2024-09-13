@@ -2,6 +2,7 @@ import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { Day26 } from "../target/types/day26";
 
+import privateKey from "/home/nejc/.config/solana/id.json";
 // ------------------ Helper functions ------------------
 async function airdropSol(publicKey, amount) {
   let airdropTx = await anchor
@@ -96,5 +97,29 @@ describe("day26", () => {
 
     console.log("PDA address:", pda.toBase58());
     console.log("Keypair address:", keypair.publicKey.toBase58());
+  });
+
+  it("Is initialized!", async () => {
+    const deployer = anchor.web3.Keypair.fromSecretKey(
+      Uint8Array.from(privateKey)
+    );
+
+    const seeds = [];
+    const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds,
+      program.programId
+    );
+
+    console.log("the storage account address is", myStorage.toBase58());
+
+    await program.methods.initialize().accounts({ myStorage: myStorage }).rpc();
+    await program.methods
+      .changeOwner()
+      .accounts({ myStorage: myStorage })
+      .rpc();
+
+    // after the ownership has been transferred
+    // the account can still be initialized again
+    await program.methods.initialize().accounts({ myStorage: myStorage }).rpc();
   });
 });
