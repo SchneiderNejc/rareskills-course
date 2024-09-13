@@ -40,8 +40,17 @@ describe("day26", () => {
     );
 
     console.log(
-      "owner of pda before initialize:",
+      "owner of pda before airdrop:",
       await anchor.getProvider().connection.getAccountInfo(pda)
+    );
+
+    await airdropSol(pda, 1); // 1 SOL
+
+    console.log(
+      "owner of pda after airdrop:",
+      (
+        await anchor.getProvider().connection.getAccountInfo(pda)
+      ).owner.toBase58()
     );
 
     await program.methods.initializePda().accounts({ pda: pda }).rpc();
