@@ -65,7 +65,11 @@ pub struct Donate<'info> {
 
 #[derive(Accounts)]
 pub struct Withdraw<'info> {
-    #[account(mut, address = Pubkey::from_str("5jmigjgt77kAfKsHri3MHpMMFPo6UuiAMF19VdDfrrTj").unwrap())]
+    // @notice Hardcoded the address who can withdraw from the PDA.
+    //         Change the address in the string to yours from solana address.
+    #[account(mut, address = Pubkey::from_str(
+        "6ZJDfSVjffvRYbtpFF33PSeYWNYJnbtMKiwWVt1YRjZW"
+    ).unwrap())]
     pub signer: Signer<'info>,
 
     #[account(mut)]
