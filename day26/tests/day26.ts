@@ -33,6 +33,8 @@ describe("day26", () => {
 
   it("Is initialized!", async () => {
     console.log("program address", program.programId.toBase58());
+
+    // ------------------ PDA Section ------------------
     const seeds = [];
     const [pda, bump_] = anchor.web3.PublicKey.findProgramAddressSync(
       seeds,
@@ -62,6 +64,7 @@ describe("day26", () => {
       ).owner.toBase58()
     );
 
+    // ------------------ Keypair Section ------------------
     let keypair = anchor.web3.Keypair.generate();
 
     console.log(
@@ -90,5 +93,8 @@ describe("day26", () => {
         await anchor.getProvider().connection.getAccountInfo(keypair.publicKey)
       ).owner.toBase58()
     );
+
+    console.log("PDA address:", pda.toBase58());
+    console.log("Keypair address:", keypair.publicKey.toBase58());
   });
 });
