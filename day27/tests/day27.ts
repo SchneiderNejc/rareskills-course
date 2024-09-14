@@ -8,16 +8,25 @@ describe("day27", () => {
 
   const program = anchor.workspace.Day27 as Program<Day27>;
 
-  it("Is initialized!", async () => {
+  it("initialize after giving to system program or draining lamports", async () => {
     const [myPda, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
       [],
       program.programId
     );
-    await program.methods.increment().accounts({ myPda: myPda }).rpc();
-    await program.methods.increment().accounts({ myPda: myPda }).rpc();
-    await program.methods.increment().accounts({ myPda: myPda }).rpc();
 
-    let result = await program.account.myPda.fetch(myPda);
-    console.log(`counter is ${result.counter}`);
+    await program.methods.initialize().accounts({ myPda: myPda }).rpc();
+
+    await program.methods
+      .giveToSystemProgram()
+      .accounts({ myPda: myPda })
+      .rpc();
+
+    await program.methods.initialize().accounts({ myPda: myPda }).rpc();
+    console.log("account initialized after giving to system program!");
+
+    await program.methods.drainLamports().accounts({ myPda: myPda }).rpc();
+
+    await program.methods.initialize().accounts({ myPda: myPda }).rpc();
+    console.log("account initialized after draining lamports!");
   });
 });
