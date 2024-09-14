@@ -9,8 +9,15 @@ describe("day27", () => {
   const program = anchor.workspace.Day27 as Program<Day27>;
 
   it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+    const [myPda, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      [],
+      program.programId
+    );
+    await program.methods.increment().accounts({ myPda: myPda }).rpc();
+    await program.methods.increment().accounts({ myPda: myPda }).rpc();
+    await program.methods.increment().accounts({ myPda: myPda }).rpc();
+
+    let result = await program.account.myPda.fetch(myPda);
+    console.log(`counter is ${result.counter}`);
   });
 });
