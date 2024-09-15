@@ -9,8 +9,34 @@ describe("day28", () => {
   const program = anchor.workspace.Day28 as Program<Day28>;
 
   it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+    const wallet = anchor.workspace.Day28.provider.wallet.payer;
+    const [pda, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      [],
+      program.programId
+    );
+
+    const initTx = await program.methods
+      .initialize()
+      .accounts({ pda: pda })
+      .transaction();
+
+    // for u32, we don't need to use big numbers
+    const setTx = await program.methods
+      .set(5)
+      .accounts({ pda: pda })
+      .transaction();
+
+    let transaction = new anchor.web3.Transaction();
+    transaction.add(initTx);
+    transaction.add(setTx);
+
+    await anchor.web3.sendAndConfirmTransaction(
+      anchor.getProvider().connection,
+      transaction,
+      [wallet]
+    );
+
+    const pdaAcc = await program.account.pda.fetch(pda);
+    console.log(pdaAcc.value); // prints 5
   });
 });
