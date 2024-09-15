@@ -8,6 +8,8 @@ describe("day28", () => {
 
   const program = anchor.workspace.Day28 as Program<Day28>;
 
+  // @notice Expect fail. Batched tx's are atomic,
+  //         if second call fails, first one will be reverted.
   it("Set the number to 5, initializing if necessary", async () => {
     const wallet = anchor.workspace.Day28.provider.wallet.payer;
     const [pda, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
