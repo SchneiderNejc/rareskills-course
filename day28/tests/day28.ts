@@ -8,7 +8,7 @@ describe("day28", () => {
 
   const program = anchor.workspace.Day28 as Program<Day28>;
 
-  it("Is initialized!", async () => {
+  it("Is initialized and set.", async () => {
     const wallet = anchor.workspace.Day28.provider.wallet.payer;
     const [pda, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
       [],
