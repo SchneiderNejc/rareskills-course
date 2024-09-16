@@ -20,5 +20,8 @@ describe("day29", () => {
     // Initialize the storage.
     await program.methods.initialize().accounts({ myStorage: myStorage }).rpc();
     console.log("Account initialized successfully!");
+
+    console.log(`program: ${program.programId.toBase58()}`);
+    console.log(`storage account: ${myStorage.toBase58()}`);
   });
 });
