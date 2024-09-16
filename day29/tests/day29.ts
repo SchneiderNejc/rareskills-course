@@ -16,10 +16,24 @@ describe("day29", () => {
       seeds,
       program.programId
     );
+    let accountInfo = await anchor
+      .getProvider()
+      .connection.getAccountInfo(myStorage);
 
-    // Initialize the storage.
-    await program.methods.initialize().accounts({ myStorage: myStorage }).rpc();
-    console.log("Account initialized successfully!");
+    if (
+      accountInfo == null ||
+      accountInfo.lamports == 0 ||
+      accountInfo.owner == anchor.web3.SystemProgram.programId
+    ) {
+      // Initialize the account.
+      await program.methods
+        .initialize()
+        .accounts({ myStorage: myStorage })
+        .rpc();
+      console.log("Account initialized successfully!");
+    } else {
+      console.log("no need to initialize");
+    }
 
     console.log(`program: ${program.programId.toBase58()}`);
     console.log(`storage account: ${myStorage.toBase58()}`);
