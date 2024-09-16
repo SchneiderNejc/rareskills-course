@@ -9,8 +9,16 @@ describe("day29", () => {
   const program = anchor.workspace.Day29 as Program<Day29>;
 
   it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+    const programId = await program.account.myStorage.programId;
+
+    const seeds = [];
+    const [myStorage, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      seeds,
+      program.programId
+    );
+
+    // Initialize the storage.
+    await program.methods.initialize().accounts({ myStorage: myStorage }).rpc();
+    console.log("Account initialized successfully!");
   });
 });
