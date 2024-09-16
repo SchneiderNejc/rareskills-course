@@ -14,16 +14,8 @@ pub mod day28 {
 
     pub fn set(ctx: Context<Set>, new_val: u32) -> Result<()> {
         ctx.accounts.pda.value = new_val;
-        return err!(Error::AlwaysFails);
+				Ok(()) // ERROR HAS BEEN REMOVED
     }
-}
-
-
-
-#[error_code]
-pub enum Error {
-    #[msg(always fails)]
-    AlwaysFails,
 }
 
 #[derive(Accounts)]
