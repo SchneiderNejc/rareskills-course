@@ -7,15 +7,14 @@ pub mod day31 {
     use super::*;
 
 	pub fn foo(ctx: Context<Foo>) -> Result<()> {
-		// we don't do anything with the account SomeAccount
+		let data = &ctx.accounts.some_account.try_borrow_data()?;
+		msg!("{:?}", data);
 		Ok(())
-		}
+	}
 }
 
 #[derive(Accounts)]
 pub struct Foo<'info> {
-	some_account: Account<'info, SomeAccount>, // When using Account type, must have callable init.
+	/// CHECK: we are just printing the data
+	some_account: AccountInfo<'info>,
 }
-
-#[account]
-pub struct SomeAccount {}
