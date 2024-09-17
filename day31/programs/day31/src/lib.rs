@@ -6,15 +6,21 @@ declare_id!("DZAhARBh8xs14dEYi6mQ6S79LPYGEghgqvAbCvvCgVsV");
 pub mod day31 {
     use super::*;
 
-	pub fn foo(ctx: Context<Foo>) -> Result<()> {
-		let data = &ctx.accounts.some_account.try_borrow_data()?;
-		msg!("{:?}", data);
+	pub fn hello(ctx: Context<Hello>) -> Result<()> {
+		let lamports = ctx.accounts.signer.lamports();
+		let address = &ctx.accounts
+			.signer
+			.signer_key().unwrap();
+		msg!(
+			"hello {:?} you have {} lamports",
+			address,
+			lamports
+		);
 		Ok(())
-	}
+    }
 }
 
 #[derive(Accounts)]
-pub struct Foo<'info> {
-	/// CHECK: we are just printing the data
-	some_account: AccountInfo<'info>,
+pub struct Hello<'info> {
+	pub signer: Signer<'info>,
 }
