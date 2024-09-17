@@ -28,6 +28,7 @@ pub struct Initialize<'info> {
     pub system_program: Program<'info, System>,
 }
 
+// @todo Add some kind of access control
 #[derive(Accounts)]
 pub struct Delete<'info> {
     #[account(mut, close = signer, )]
