@@ -9,8 +9,14 @@ describe("day30", () => {
   const program = anchor.workspace.Day30 as Program<Day30>;
 
   it("Is initialized!", async () => {
-    // Add your test here.
-    const tx = await program.methods.initialize().rpc();
-    console.log("Your transaction signature", tx);
+    let [thePda, _bump] = anchor.web3.PublicKey.findProgramAddressSync(
+      [],
+      program.programId
+    );
+    await program.methods.initialize().accounts({ thePda: thePda }).rpc();
+    await program.methods.delete().accounts({ thePda: thePda }).rpc();
+
+    let account = await program.account.thePda.fetchNullable(thePda);
+    console.log(account); // null - Account has been deleted.
   });
 });
