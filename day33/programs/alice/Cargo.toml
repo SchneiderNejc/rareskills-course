@@ -16,4 +16,5 @@ cpi = ["no-entrypoint"]
 default = []
 
 [dependencies]
+day33 = {path = "../day33", features = ["cpi"]}
 anchor-lang = "0.27.0"
