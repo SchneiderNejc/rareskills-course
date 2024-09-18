@@ -9,7 +9,7 @@ use day33::BobData;
 // Import BobAddOp from the correct module
 use day33::cpi::accounts::BobAddOp;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("5PpNQHKWXq5qprfmgtBJgEfSyY4yVW6yaXJW9RozqC1F");
 
 #[program]
 pub mod alice {

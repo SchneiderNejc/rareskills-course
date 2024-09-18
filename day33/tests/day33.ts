@@ -23,5 +23,16 @@ describe("CPI from Alice to Day33", () => {
       .signers([dataAccountKeypair])
       .rpc();
   });
+
+  it("Can add two numbers.", async () => {
+    // Add your test here.
+    const tx = await aliceProgram.methods
+      .askDay33ToAdd(new anchor.BN(4), new anchor.BN(2))
+      .accounts({
+        bobDataAccount: dataAccountKeypair.publicKey,
+        day33Program: program.programId,
+      })
+      .rpc();
+  });
   });
 });
