@@ -13,9 +13,17 @@ pub mod day33 {
 
         Ok(())
     }
+
+    pub fn add_and_store(ctx: Context<BobAddOp>, a: u64, b: u64) -> Result<()> {
+        let result = a + b;
+
+        // MODIFY/UPDATE THE DATA ACCOUNT
+        ctx.accounts.bob_data_account.result = result;
         Ok(())
     }
 }
+
+
 
 #[derive(Accounts)]
 pub struct Initialize<'info> {
@@ -27,6 +35,13 @@ pub struct Initialize<'info> {
 
     pub system_program: Program<'info, System>,
 }
+
+#[derive(Accounts)]
+pub struct BobAddOp<'info> {
+    #[account(mut)]
+    pub bob_data_account: Account<'info, BobData>,
+}
+
 #[account]
 pub struct BobData {
     pub result: u64,
