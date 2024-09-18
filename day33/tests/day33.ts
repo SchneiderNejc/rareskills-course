@@ -2,6 +2,7 @@ import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { Day33 } from "../target/types/day33";
 import { Alice } from "../target/types/alice";
+import { expect } from "chai";
 
 describe("CPI from Alice to Day33", () => {
   const provider = anchor.AnchorProvider.env();
@@ -34,5 +35,11 @@ describe("CPI from Alice to Day33", () => {
       })
       .rpc();
   });
+
+  it("Can assert value in Bob's data account equals 4 + 2.", async () => {
+    const BobAccountValue = (
+      await program.account.bobData.fetch(dataAccountKeypair.publicKey)
+    ).result.toNumber();
+    expect(BobAccountValue).to.equal(6);
   });
 });
