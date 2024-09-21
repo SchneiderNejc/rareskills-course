@@ -1,0 +1,1 @@
+We are able to make a CPI call to Bob in “one line.” This could be handy if other parts of the Alice program made a CPI to Bob — moving the code to the impl would prevent us from copying and pasting the code to create the CpiContext.
