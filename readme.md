@@ -84,6 +84,7 @@ This Solana course is designed for engineers with a beginner or intermediate bac
 
 - **[Day 19](https://github.com/SchneiderNejc/rareskills-course/tree/master/day19)**: Creating mappings and nested mappings in Solana.
   [lib.rs](https://github.com/SchneiderNejc/rareskills-course/blob/master/day19/programs/day19/src/lib.rs)
+  , [day19.ts](https://github.com/SchneiderNejc/rareskills-course/blob/master/day19/tests/day19.ts)
 
 - **[Day 20](https://github.com/SchneiderNejc/rareskills-course/tree/master/day20)**: Cost of storage, maximum storage size, and account resizing.
   [lib.rs](https://github.com/SchneiderNejc/rareskills-course/blob/master/day20/programs/day20/src/lib.rs)
@@ -93,9 +94,7 @@ This Solana course is designed for engineers with a beginner or intermediate bac
   [lib.rs](https://github.com/SchneiderNejc/rareskills-course/blob/master/day21/programs/day21/src/lib.rs)
   , [day21.ts](https://github.com/SchneiderNejc/rareskills-course/blob/master/day21/tests/day21.ts)
 
-- **[Day 22](https://github.com/SchneiderNejc/rareskills-course/tree/master/day22)**: Modifiers, view pure, payable, and fallback in Solana.
-  [lib.rs](https://github.com/SchneiderNejc/rareskills-course/blob/master/day22/programs/day22/src/lib.rs)
-  , [day22.ts](https://github.com/SchneiderNejc/rareskills-course/blob/master/day22/tests/day22.ts)
+- **[Day 22](https://github.com/SchneiderNejc/rareskills-course/tree/master/day22)**: Modifiers, view pure, payable, and fallback in Solana. [Learn more](https://www.rareskills.io/post/solidity-function-types-solana/)
 
 - **[Day 23](https://github.com/SchneiderNejc/rareskills-course/tree/master/day23)**: Building a payment splitter in Solana.
   [lib.rs](https://github.com/SchneiderNejc/rareskills-course/blob/master/day23/programs/day23/src/lib.rs)
